@@ -2,7 +2,8 @@ package cse.school.codejam;
 
 import java.util.*;
 
-public class AccountRepository {
+public String getAccountNumber();
+
     private final Map<String, BankAccount> accounts = new HashMap<>();
 
     public boolean accountExists(String accountNumber) {
