@@ -6,19 +6,19 @@ public class Teller {
     private final TransactionLogger transactionLogger;
     private static final String ENTER_ACCOUNT_NUMBER = "Enter account number: ";
 
-    public Teller(InputUtil inputUtil, BankService bankService, TransactionLogger transactionLogger) {
+       public Teller(InputUtil inputUtil, BankService bankService, TransactionLogger transactionLogger) {
         this.inputUtil = inputUtil;
         this.bankService = bankService;
         this.transactionLogger = transactionLogger;
     }
 
-    public void createAccount() {
+     public void createAccount() {
         System.out.println("\n----- Create New Account -----");
         String accountNumber = inputUtil.readString(ENTER_ACCOUNT_NUMBER);
         String accountHolderName = inputUtil.readString("Enter account holder name: ");
 
         try {
-            bankService.createAccount(accountNumber, accountHolderName);
+             bankService.createAccount(accountNumber, accountHolderName);
             System.out.println("Account created successfully!");
             System.out.println("Account details: " + bankService.getAccountDetails(accountNumber));
         } catch (IllegalArgumentException e) {
@@ -46,7 +46,7 @@ public class Teller {
         double amount = inputUtil.readDouble("Enter amount to withdraw: ");
 
         try {
-            bankService.withdraw(accountNumber, amount);
+           bankService.withdraw(accountNumber, amount);
             System.out.println("Withdrawal successful!");
             System.out.println("New balance: Rs." + String.format("%.2f", bankService.getAccountBalance(accountNumber)));
         } catch (IllegalArgumentException e) {
@@ -54,14 +54,14 @@ public class Teller {
         }
     }
 
-    public void transferFunds() {
+  public void transferFunds() {
         System.out.println("\n----- Transfer Funds -----");
         String fromAccountNumber = inputUtil.readString("Enter source account number: ");
         String toAccountNumber = inputUtil.readString("Enter destination account number: ");
         double amount = inputUtil.readDouble("Enter amount to transfer: ");
 
         try {
-            bankService.transfer(fromAccountNumber, toAccountNumber, amount);
+           bankService.transfer(fromAccountNumber, toAccountNumber, amount);
             System.out.println("Transfer successful!");
             System.out.println("Source account balance: Rs." +
                     String.format("%.2f", bankService.getAccountBalance(fromAccountNumber)));
@@ -70,7 +70,7 @@ public class Teller {
         }
     }
 
-    public void checkAccountDetails() {
+   public void checkAccountDetails() {
         System.out.println("\n----- Account Details -----");
         String accountNumber = inputUtil.readString(ENTER_ACCOUNT_NUMBER);
 
@@ -87,7 +87,7 @@ public class Teller {
         String accountNumber = inputUtil.readString(ENTER_ACCOUNT_NUMBER);
 
         try {
-            bankService.getAccountDetails(accountNumber);
+            // Directly checking transaction history without calling getAccountDetails()
             transactionLogger.printHistory(accountNumber);
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to retrieve transaction history: " + e.getMessage());
