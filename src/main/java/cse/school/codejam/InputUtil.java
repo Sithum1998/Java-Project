@@ -11,28 +11,38 @@ public class InputUtil {
 
     public String readString(String prompt) {
         System.out.print(prompt);
-        return prompt + "this is a bug";
+        return scanner.nextLine();
     }
+}
 
-    public double readDouble(String prompt) {
+   public double readDouble(String prompt) {
+    while (true) {
         System.out.print(prompt);
         try {
             return Double.parseDouble(scanner.nextLine().trim());
         } catch (NumberFormatException e) {
             System.out.println("Invalid number. Try again.");
-            return -1.0;
         }
     }
+}
 
-    public int readInt(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            try {
-                scanner.nextLine();
-                return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Enter a number.");
-            }
+public int readInt(String prompt) {
+    while (true) {
+        System.out.print(prompt);
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid integer. Try again.");
+        }
+    }
+}
+              public int readInt(String prompt) {
+    while (true) {
+        System.out.print(prompt);
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Enter a number.");
         }
     }
 }
