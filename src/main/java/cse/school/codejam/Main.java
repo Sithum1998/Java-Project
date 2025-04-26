@@ -8,7 +8,9 @@ public class Main {
         AccountRepository accountRepository = new AccountRepository();
         BankService bankService = new BankServiceImpl(transactionLogger, accountRepository);
         Teller teller = new Teller(inputUtil, bankService, transactionLogger);
-
+ }
+}
+       public void start() {
         while (true) {
             System.out.println("====== CodeJam Bank CLI ======");
             System.out.println("1. Create Account");
@@ -19,39 +21,43 @@ public class Main {
             System.out.println("6. View Account History");
             System.out.println("7. Exit");
 
-            int option = teller.getUserPreference();
+            int option = teller.getUserPreference(); // Assuming this gets input from user
 
             try {
                 switch (option) {
                     case 1:
-                        teller.createAccount();
+                        teller.createAccount();  // Assuming this is implemented in Teller
                         break;
                     case 2:
-                        teller.depositFunds();
+                        teller.depositFunds();  // Assuming this is implemented in Teller
                         break;
                     case 3:
-                        teller.withdrawFunds();
+                        teller.withdrawFunds();  // Assuming this is implemented in Teller
                         break;
                     case 4:
-                        teller.transferFunds();
+                        teller.transferFunds();  // Assuming this is implemented in Teller
                         break;
                     case 5:
-                        teller.checkAccountDetails();
+                        teller.checkAccountDetails();  // Assuming this is implemented in Teller
                         break;
                     case 6:
-                        teller.checkTransactionHistory();
+                        teller.checkTransactionHistory();  // Assuming this is implemented in Teller
                         break;
                     case 7:
                         System.out.println("Goodbye!");
-                        return;
+                        return;  // Exits the loop
                     default:
                         System.out.println("Invalid option.");
                 }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());  // Catch specific exceptions if possible
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("An unexpected error occurred: " + e.getMessage());
             }
             System.out.println();
         }
+    }
+}
     }
 }
 
