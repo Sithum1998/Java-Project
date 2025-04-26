@@ -9,6 +9,7 @@ public class BankServiceImpl implements BankService {
         this.transactionLogger = transactionLogger;
     }
 
+    @Override
     public void createAccount(String accountNumber, String accountHolderName) {
         if (accountRepository.accountExists(accountNumber)) {
             throw new IllegalArgumentException("Account already exists.");
@@ -17,12 +18,13 @@ public class BankServiceImpl implements BankService {
         accountRepository.addAccount(account);
     }
 
+    @Override
     public void deposit(String accountNumber, double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive.");
         }
         BankAccount account = accountRepository.getAccount(accountNumber);
-        account.deposit(amount);
+        account.deposit(amount); // Make sure deposit updates balance
         Transaction transaction = new Transaction()
                 .setType(Transaction.TransactionType.DEPOSIT)
                 .setToAccountNumber(accountNumber)
@@ -30,6 +32,51 @@ public class BankServiceImpl implements BankService {
         transactionLogger.logTransaction(accountNumber, transaction);
     }
 
+    @Override
+    public void withdraw(String accountNumber, double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        BankAccount account = accountRepository.getAccount(accountNumber);
+        account.withdraw(amount);
+        Transaction transaction = new Transaction()
+                .setType(Transaction.TransactionType.WITHDRAW)
+                .setFromAccountNumber(accountNumber)
+                .setAmount(amount);
+        transactionLogger.logTransaction(accountNumber, transaction);
+    }
+
+    @Override
+    public void transfer(String fromAccountNumber, String toAccountNumber, double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Transfer amount must be positive.");
+        }
+        BankAccount fromAccount = accountRepository.getAccount(fromAccountNumber);
+        BankAccount toAccount = accountRepository.getAccount(toAccountNumber);
+
+        fromAccount.withdraw(amount); // Withdraw from source
+        toAccount.deposit(amount);     // Deposit into target
+
+        Transaction transaction = new Transaction()
+                .setType(Transaction.TransactionType.TRANSFER)
+                .setFromAccountNumber(fromAccountNumber)
+                .setToAccountNumber(toAccountNumber)
+                .setAmount(amount);
+        transactionLogger.logTransaction(fromAccountNumber, transaction);
+    }
+
+    @Override
+    public String getAccountDetails(String accountNumber) {
+        BankAccount account = accountRepository.getAccount(accountNumber);
+        return account.getAccountDetails();
+    }
+
+    @Override
+    public double getAccountBalance(String accountNumber) {
+        BankAccount account = accountRepository.getAccount(accountNumber);
+        return account.getBalance();
+    }
+}
     public void withdraw(String accountNumber, double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Withdrawal amount must be positive.");
